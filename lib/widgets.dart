@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import './models/itmeslist.dart';
+import 'databas_helper.dart';
 
 class CategoriesScroller extends StatelessWidget {
   @override
@@ -10,10 +12,48 @@ class CategoriesScroller extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),
         child: Row(
-          children: cateList,
+          children: [
+            Category(
+              colorType: 1,
+            ),
+            Category(
+              colorType: 2,
+            ),
+            Category(
+              colorType: 1,
+            ),
+            Category(
+              colorType: 2,
+            ),
+          ], //catess lisssssssst
         ),
       ),
     );
+    // FutureBuilder(
+    //   initialData: [],
+    //   future: DatabaseHelper.instance.getCategories(),
+    //   builder: (context, snapshot) {
+    //     return ListView.builder(
+    //         shrinkWrap: true,
+    //         physics: BouncingScrollPhysics(),
+    //         scrollDirection: Axis.horizontal,
+    //         itemCount: snapshot.data.length,
+    //         itemBuilder: (context, index) {
+    //           return snapshot.data[index];
+    //         });
+    //   });
+    //**********************************
+    //   SingleChildScrollView(
+    //   physics: BouncingScrollPhysics(),
+    //   scrollDirection: Axis.horizontal,
+    //   child: Container(
+    //     margin: const EdgeInsets.symmetric(horizontal: 20),
+    //     child: Row(
+    //       children: snapshot.data, //cates lisssssssst
+    //     ),
+    //   ),
+    // );
+    //----------------********---------
   }
 }
 
@@ -25,20 +65,20 @@ class ToDos extends StatelessWidget {
       itemCount: toDoList.length,
       physics: BouncingScrollPhysics(),
       itemBuilder: (context, index) {
-        return toDoList[index];
+        return toDoList[index]; //toDo liiiiiiiiiiiiiiiiist in homepage
       },
     ));
   }
 }
 
 class Category extends StatelessWidget {
-  final Color color;
+  final int colorType;
   final title;
-  Category({@required this.color, @required this.title});
+  Category({this.colorType, this.title});
   @override
   Widget build(BuildContext context) {
     final double categoryHeight =
-        MediaQuery.of(context).size.height * 0.30 - 50;
+        MediaQuery.of(context).size.height * 0.30 + 50;
     return Container(
       margin: EdgeInsets.only(
         right: 20,
@@ -62,7 +102,7 @@ class Category extends StatelessWidget {
               height: 10,
             ),
             Text(
-              title,
+              title ?? "Unnamed",
               style: TextStyle(
                   color: Color(0xff26104A),
                   fontWeight: FontWeight.bold,
@@ -71,7 +111,11 @@ class Category extends StatelessWidget {
             Text(
               "_________",
               style: TextStyle(
-                  fontWeight: FontWeight.bold, fontSize: 20, color: color),
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color:
+                    colorType % 2 == 0 ? Color(0xff6600FF) : Color(0xffFF0066),
+              ),
             )
           ],
         ),
@@ -81,10 +125,10 @@ class Category extends StatelessWidget {
 }
 
 class ToDoWidget extends StatelessWidget {
-  final Color color;
+  final int colorType;
   final text;
   final bool isDone;
-  ToDoWidget({this.text, @required this.color, @required this.isDone});
+  ToDoWidget({this.text, @required this.colorType, @required this.isDone});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -113,21 +157,28 @@ class ToDoWidget extends StatelessWidget {
               width: 25,
               margin: EdgeInsets.only(right: 22.0),
               decoration: BoxDecoration(
-                border: isDone ? null : Border.all(
-                  color: color,
-                  width: 1.5
-                ),
+                border: isDone
+                    ? null
+                    : Border.all(
+                        color: colorType % 2 == 0
+                            ? Color(0xff6600FF)
+                            : Color(0xffFF0066),
+                        width: 1.5),
                 borderRadius: BorderRadius.circular(15.0),
-                color: isDone ? color : Colors.transparent,
+                color: isDone
+                    ? colorType % 2 == 0
+                        ? Color(0xff6600FF)
+                        : Color(0xffFF0066)
+                    : Colors.transparent,
               ),
               child: Image(
                 image: AssetImage("assets/images/check_icon.png"),
               ),
             ),
             Text(
-              text ??  ("Unnamed ToDO"),
+              text ?? ("Unnamed ToDO"),
               style: TextStyle(
-                color: isDone ? Color(0xffC4BCD5) : Color(0xff26104A) ,
+                color: isDone ? Color(0xffC4BCD5) : Color(0xff26104A),
                 fontWeight: isDone ? FontWeight.w300 : FontWeight.w300,
                 fontSize: 18,
               ),

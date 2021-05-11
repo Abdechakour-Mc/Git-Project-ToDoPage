@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:todo_one/databas_helper.dart';
+import './taskpage.dart';
 
 import '../widgets.dart';
 
@@ -21,16 +23,15 @@ class _MyhomePageState extends State<MyhomePage> {
           backgroundColor: Colors.white,
           leading: Icon(
             Icons.menu,
-            color: Colors.black,
+            color: Color(0xff26104A),
           ),
           title: Center(
             child: Text(
               "TO DO TASKS",
               style: TextStyle(
-                fontSize: 24,
-                color: Color(0xff26104A),
-                fontWeight: FontWeight.w400
-              ),
+                  fontSize: 24,
+                  color: Color(0xff26104A),
+                  fontWeight: FontWeight.w400),
             ),
           ),
           actions: <Widget>[
@@ -66,7 +67,7 @@ class _MyhomePageState extends State<MyhomePage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  CategoriesScroller(),
+                   CategoriesScroller(),
                   const SizedBox(
                     height: 50,
                   ),
@@ -78,24 +79,35 @@ class _MyhomePageState extends State<MyhomePage> {
               bottom: 24,
               right: 24,
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TaskPage(),
+                    ),
+                  ).then((value) {
+                    setState(() {});
+                  });
+                },
                 child: Container(
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                      color: Color(0xff6600FF),
+                      gradient: LinearGradient(
+                          colors: [Color(0xff7349FE), Color(0xff643FDB)],
+                          begin: Alignment(0.0, -1.0),
+                          end: Alignment(0.0, 1.0)),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black,
                           blurRadius: 1.0,
-                          spreadRadius:-1.0,
-                          offset: Offset(2.0, 2.0), // shadow direction: bottom right
+                          spreadRadius: -1.0,
+                          offset: Offset(
+                              2.0, 2.0), // shadow direction: bottom right
                         )
                       ],
                       borderRadius: BorderRadius.circular(100.0)),
-                  child: IconButton( onPressed: (){},
-                    icon: Icon(Icons.add,color: Colors.white),
-                  ),
+                  child: Icon(Icons.add, color: Colors.white),
                 ),
               ),
             ),
